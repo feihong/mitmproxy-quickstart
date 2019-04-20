@@ -8,7 +8,7 @@
 
 1. `mitmdump -w dumpfile ~u '.*streetvoice[.]com.*'`
 1. Set proxy to host: localhost, port: 8080
-1.
+1. `mitmdump -ns convert_to_sqlite.py -r dumpfile`
 
 ## Types of urls
 
