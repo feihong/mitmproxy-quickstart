@@ -1,9 +1,5 @@
 # Feihong's mitmproxy quickstart
 
-## Basics
-
-    mitmdump -ns list_paths.py -r dumpfile
-
 ## Procedure
 
 1. `yarn clean`
@@ -15,6 +11,10 @@
 1. Stop proxy
 1. `yarn process`
 1. Generated files will be in `output` folder
+
+## Commands
+
+    mitmdump -ns list_paths.py -r dumpfile
 
 ## Types of urls
 

@@ -1,3 +1,6 @@
+"""
+Dump flows into sqlite database so that you can randomly access them.
+"""
 import os.path
 from pathlib import Path
 import sqlite3
@@ -21,7 +24,7 @@ class MyAddon:
         The full HTTP response has been read.
         """
         try:
-          ctx.log.info(flow.request.path)
+          # ctx.log.info(flow.request.path)
           res = flow.response
           content_type = res.headers.get('content-type')
           if content_type:

@@ -1,3 +1,6 @@
+/*
+Scrape playlist pages and convert the track metadata within to json
+*/
 const fs = require('fs')
 const cheerio = require('cheerio')
 const Database = require('better-sqlite3')
@@ -13,19 +16,19 @@ function* getSongs() {
     prepare("path LIKE '%/playlists/%' AND content_type LIKE 'text/html%'")
   for (const page of pages.iterate()) {
     const playlistRe = /playlists\/([0-9]+)\//
-    let match = page.path.match(playlistRe)
+    const match = page.path.match(playlistRe)
     if (!match) {
       continue
     }
-    let playlistId = match[1]
+    const playlistId = match[1]
     fs.writeFileSync(`./assets/${playlistId}.html`, page.data)
 
     const $ = cheerio.load(page.data)
-    const songs = $('#songlist tr.item_box').map((i, el) => {
-      let item = $(el)
-      let anchor = item.find('td > a')
-      let imageUrl = item.find('img').attr('src')
-      let imageIdRe = /\/([a-zA-Z0-9]+)[.](?:jpg|jpeg|png)/
+    yield* $('#songlist tr.item_box').map((i, el) => {
+      const item = $(el)
+      const anchor = item.find('td > a')
+      const imageUrl = item.find('img').attr('src')
+      const imageIdRe = /\/([a-zA-Z0-9]+)[.](?:jpg|jpeg|png)/
 
       return {
         id: item.find('.btn-play').data('id'),
@@ -35,7 +38,6 @@ function* getSongs() {
         imageId: imageUrl.match(imageIdRe)[1],
       }
     }).get()
-    yield* songs
   }
 }
 

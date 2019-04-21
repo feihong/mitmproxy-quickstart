@@ -1,3 +1,7 @@
+/*
+Combine metadata, cover art, and audio data into complete .m4a files. Also
+apply track gain to balance loudness levels.
+*/
 const fs = require('fs')
 const childProcess = require('child_process')
 
@@ -44,7 +48,8 @@ function addCoverArt(song, outputFile) {
     return
   }
 
-  // If the image is webp, first convert it to png
+  // If the image is webp, convert it to png since AtomicParsley cannot handle
+  // webp
   if (song.imageFile.endsWith('.webp')) {
     const pngFile = `./assets/${song.imageId}.png`
     childProcess.spawnSync(
@@ -59,6 +64,8 @@ function addCoverArt(song, outputFile) {
     song.imageFile = pngFile
   }
 
+  // We do not add metadata in this step because AtomicParsley is notoriously
+  // bad at adding lyrics
   childProcess.spawnSync(
     'AtomicParsley',
     [
