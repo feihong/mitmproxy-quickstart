@@ -22,6 +22,7 @@ function* getSongs() {
       let anchor = item.find('td > a')
       let imageUrl = item.find('img').attr('src')
       let imageIdRe = /\/([a-zA-Z0-9]+)[.](?:jpg|png)/
+
       return {
         id: item.find('.btn-play').data('id'),
         title: item.find('h4').text(),
@@ -37,15 +38,28 @@ function* getSongs() {
 
       const stmt2 = prepare(`path LIKE '%/songs/${song.id}/hls/'`)
       let row2 = stmt2.get()
-      song.fileId = JSON.parse(row2.data.toString()).file
+      let fileIdRe = /\/([a-zA-Z0-9]+)[.]mp3/
+      song.fileId = JSON.parse(row2.data.toString()).file.match(fileIdRe)[1]
 
-      // Write image file to disk
+      // Write cover art to disk
       const stmt3 = prepare(
         `path LIKE '%/${song.imageId}%' AND NOT path LIKE '%h_44%'`)
       let row3 = stmt3.get()
       if (row3) {
         fs.writeFileSync(`./assets/${song.imageId}.jpg`, row3.data)
       }
+
+      // Write .ts file to disk
+      const stmt4 = prepare(`path LIKE '%/${song.fileId}.mp3%' ORDER BY path`)
+      const filename = `./assets/${song.id}.ts`
+      if (fs.existsSync(filename)) {
+        fs.unlinkSync(filename)
+      }
+      const stream = fs.createWriteStream(filename, { flags: 'a' })
+      for (const row of stmt4.iterate()) {
+        stream.write(row.data)
+      }
+      stream.end()
     }
     yield* songs
   }
@@ -53,7 +67,7 @@ function* getSongs() {
 
 const songs = [...getSongs()]
 console.log(songs);
-// for (const song of songs) {
-//   console.log(song.imageId);
-// }
+for (const song of songs) {
+  console.log(song.fileId);
+}
 
