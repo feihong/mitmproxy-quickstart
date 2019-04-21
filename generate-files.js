@@ -8,6 +8,10 @@ const db = new Database('dumpfile.db', { fileMustExist: true })
 //   console.log(row)
 // }
 
+function prepare(whereClause) {
+  return db.prepare("SELECT * FROM dump WHERE " + whereClause)
+}
+
 function* getSongs() {
   const pages =
     db.prepare("SELECT * FROM dump WHERE content_type LIKE 'text/html%'")
@@ -20,8 +24,19 @@ function* getSongs() {
         title: item.find('h4').text(),
         artist: item.find('td > a').text(),
       }
-    })
-    yield* songs.get()
+    }).get()
+    for (let song of songs) {
+      const stmt = prepare(
+        `path LIKE '%/songs/${song.id}/%fields=lyrics%'`)
+      let row = stmt.get()
+      song.lyrics = JSON.parse(row.data.toString()).lyrics
+
+      const stmt2 = prepare(
+        `path LIKE '%/songs/${song.id}/hls/'`)
+      let row2 = stmt2.get()
+      song.fileId = JSON.parse(row2.data.toString()).file
+    }
+    yield* songs
   }
 }
 
