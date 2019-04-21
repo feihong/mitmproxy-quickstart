@@ -14,8 +14,13 @@ function prepare(whereClause) {
 
 function* getSongs() {
   const pages =
-    db.prepare("SELECT * FROM dump WHERE content_type LIKE 'text/html%'")
+    db.prepare(
+      "SELECT * FROM dump WHERE path LIKE '%/playlists/%' AND content_type LIKE 'text/html%'")
   for (const page of pages.iterate()) {
+    const playlistRe = /playlists\/([0-9]+)\//
+    let playlistId = page.path.match(playlistRe)[1]
+    fs.writeFileSync(`./assets/${playlistId}.html`, page.data)
+
     const $ = cheerio.load(page.data)
     const songs = $('#songlist tr.item_box').map((i, el) => {
       let item = $(el)

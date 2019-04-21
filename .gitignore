@@ -6,3 +6,4 @@ dumpfile.db
 /assets/*.jpg
 /assets/*.ts
 /assets/*.json
+/assets/*.html

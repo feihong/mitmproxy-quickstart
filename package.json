@@ -6,5 +6,10 @@
   "dependencies": {
     "better-sqlite3": "^5.4.0",
     "cheerio": "^1.0.0-rc.3"
+  },
+  "scripts": {
+    "start:proxy": "mitmdump -w dumpfile ~u '.*streetvoice[.]com.*'",
+    "convert-to-sqlite": "mitmdump -ns convert_to_sqlite.py -r dumpfile",
+    "generate-files": "node generate-files.js"
   }
 }
