@@ -4,6 +4,7 @@ Scrape playlist pages and convert the track metadata within to json
 const fs = require('fs')
 const cheerio = require('cheerio')
 const Database = require('better-sqlite3')
+const paths = require('./path.config')
 
 const db = new Database('dumpfile.db', { fileMustExist: true })
 
@@ -35,6 +36,7 @@ function* getSongs() {
         title: item.find('h4').text(),
         artist: anchor.text(),
         url: 'https://streetvoice.com' + anchor.attr('href'),
+        imageUrl,
         imageId: imageUrl.match(imageIdRe)[1],
       }
     }).get()
@@ -42,9 +44,8 @@ function* getSongs() {
 }
 
 const songs = [...getSongs()]
-fs.writeFileSync('./assets/songs.json', JSON.stringify(songs, null, 2))
+fs.writeFileSync(paths.songsFile, JSON.stringify(songs, null, 2))
 
 for (const song of songs) {
   console.log(song.title);
 }
-

@@ -4,10 +4,11 @@ apply track gain to balance loudness levels.
 */
 const fs = require('fs')
 const childProcess = require('child_process')
+const paths = require('./path.config')
 
 // Convert .ts to .m4a
 function convertToM4a(song, outputFile) {
-  const tsFile = `./assets/${song.id}.ts`
+  const tsFile = `${paths.assetsDir}/${song.id}.ts`
   if (!fs.existsSync(tsFile)) {
     return
   }
@@ -51,7 +52,7 @@ function addCoverArt(song, outputFile) {
   // If the image is webp, convert it to png since AtomicParsley cannot handle
   // webp
   if (song.imageFile.endsWith('.webp')) {
-    const pngFile = `./assets/${song.imageId}.png`
+    const pngFile = `${paths.assetsDir}/${song.imageId}.png`
     childProcess.spawnSync(
       'ffmpeg',
       [
@@ -77,12 +78,12 @@ function addCoverArt(song, outputFile) {
   )
 }
 
-const songs = require('./assets/songs.json')
+const songs = require(paths.songsFile)
 
 for (const song of songs) {
   console.log(song.title);
 
-  const outputFile = `./output/${song.artist}  ${song.title}.m4a`
+  const outputFile = `${paths.outputDir}/${song.artist}  ${song.title}.m4a`
 
   convertToM4a(song, outputFile)
   addCoverArt(song, outputFile)
