@@ -9,7 +9,7 @@ class MyAddon:
     The full HTTP response has been read.
     """
     content_type = flow.response.headers.get('content-type')
-    if content_type and not content_type.startswith('image'):
+    if not content_type or not content_type.startswith('image'):
       return
     # if not flow.request.path.endswith('.ts'):
     #   return
