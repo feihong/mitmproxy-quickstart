@@ -41,11 +41,14 @@ for (let song of songs) {
   if (fs.existsSync(filename)) {
     fs.unlinkSync(filename)
   }
-  const stream = fs.createWriteStream(filename, { flags: 'a' })
-  for (const row of stmt4.iterate()) {
-    stream.write(row.data)
+  const rows = stmt4.all()
+  if (rows.length) {
+    const stream = fs.createWriteStream(filename, { flags: 'a' })
+    for (const row of rows) {
+      stream.write(row.data)
+    }
+    stream.end()
   }
-  stream.end()
 }
 
 fs.writeFileSync('./assets/songs.json', JSON.stringify(songs, null, 2))
