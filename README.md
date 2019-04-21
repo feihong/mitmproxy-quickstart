@@ -4,8 +4,8 @@ A relatively simple project to scrape part of a website using mitmproxy (specifi
 
 ## Prerequisites
 
-    brew install yarn node
-    brew install mitmproxy
+    brew install yarn node aacgain atomicparsley mitmproxy
+    brew install ffmpeg --with-fdk-aac
 
 ## Installation
 
