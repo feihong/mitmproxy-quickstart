@@ -8,6 +8,7 @@ function convertToM4a(song, outputFile) {
     return
   }
 
+  // Convert and add metadata in one step
   childProcess.spawnSync(
     'ffmpeg',
     [
@@ -26,14 +27,16 @@ function convertToM4a(song, outputFile) {
     { stdio: 'inherit' },
   )
 
-  // def adjust_gain(song):
-  //   cmd = [
-  //       'aacgain',
-  //       '-r',       # apply Track gain automatically (all files set to equal loudness)
-  //       '-k',       # automatically lower Track/Album gain to not clip audio
-  //       str(song.output_file),
-  //   ]
-  //   subprocess.call(cmd)
+  // Balance loudness levels
+  childProcess.spawnSync(
+    'aacgain',
+    [
+      '-r',  // apply Track gain automatically (all files set to equal loudness)
+      '-k',  // automatically lower Track/Album gain to not clip audio
+      outputFile,
+    ],
+    { stdio: 'inherit' },
+  )
 }
 
 function addCoverArt(song, outputFile) {
