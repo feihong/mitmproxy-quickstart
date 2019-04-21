@@ -19,10 +19,15 @@ function* getSongs() {
     const $ = cheerio.load(page.data)
     const songs = $('#songlist tr.item_box').map((i, el) => {
       let item = $(el)
+      let anchor = item.find('td > a')
+      let imageUrl = item.find('img').attr('src')
+      let imageIdRe = /\/([a-zA-Z0-9]+)[.](?:jpg|png)/
       return {
         id: item.find('.btn-play').data('id'),
         title: item.find('h4').text(),
-        artist: item.find('td > a').text(),
+        artist: anchor.text(),
+        url: 'https://streetvoice.com' + anchor.attr('href'),
+        imageId: imageUrl.match(imageIdRe)[1],
       }
     }).get()
     for (let song of songs) {
