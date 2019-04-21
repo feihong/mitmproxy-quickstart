@@ -5,3 +5,4 @@ dumpfile
 dumpfile.db
 /assets/*.jpg
 /assets/*.ts
+/assets/*.json

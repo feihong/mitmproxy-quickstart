@@ -66,7 +66,8 @@ function* getSongs() {
 }
 
 const songs = [...getSongs()]
-console.log(songs);
+fs.writeFileSync('./assets/songs.json', JSON.stringify(songs, null, 2))
+
 for (const song of songs) {
   console.log(song.fileId);
 }
