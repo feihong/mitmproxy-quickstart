@@ -9,15 +9,15 @@ class MyAddon:
     The full HTTP response has been read.
     """
     content_type = flow.response.headers.get('content-type')
-    # if content_type and not content_type.startswith('image'):
-    #   return
+    if content_type and not content_type.startswith('image'):
+      return
     # if not flow.request.path.endswith('.ts'):
     #   return
-    if 'playlists' not in flow.request.path:
-      return
+    # if 'playlists' not in flow.request.path:
+    #   return
 
     ctx.log.info(flow.request.path)
-    ctx.log.info(str(flow.response.status_code))
+    ctx.log.info('  %s' % flow.response.status_code)
     if not content_type:
       ctx.log.warn('  no content-type')
     else:

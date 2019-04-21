@@ -1,14 +1,8 @@
 const fs = require('fs')
 const childProcess = require('child_process')
 
-const songs = require('./assets/songs.json')
-// console.log(songs);
-for (const song of songs) {
-  console.log(song.title);
-
-  const outputFile = `./output/${song.artist}  ${song.title}.m4a`
-
-  // Convert .ts to .m4a
+// Convert .ts to .m4a
+function convertToM4a(song, outputFile) {
   childProcess.spawnSync(
     'ffmpeg',
     [
@@ -25,7 +19,44 @@ for (const song of songs) {
     ],
     { stdio: 'inherit' },
   )
+}
 
-  break;
+function addCoverArt(song, outputFile) {
+  if (fs.existsSync(song.imageFile)) {
+    // If the image is webp, first convert it to png
+    if (song.imageFile.endsWith('.webp')) {
+      const pngFile = `./assets/${song.imageId}.png`
+      childProcess.spawnSync(
+        'ffmpeg',
+        [
+          '-i', song.imageFile,
+          pngFile,
+        ],
+        { stdio: 'inherit' }
+      )
+      song.imageFile = pngFile
+    }
+
+    childProcess.spawnSync(
+      'AtomicParsley',
+      [
+        outputFile,
+        '--artwork', song.imageFile,
+        '--overWrite',
+      ],
+      { stdio: 'inherit' }
+    )
+  }
+}
+
+const songs = require('./assets/songs.json')
+// console.log(songs);
+for (const song of songs) {
+  console.log(song.title);
+
+  const outputFile = `./output/${song.artist}  ${song.title}.m4a`
+
+  convertToM4a(song, outputFile)
+  addCoverArt(song, outputFile)
 }
 

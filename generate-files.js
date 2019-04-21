@@ -51,7 +51,9 @@ function* getSongs() {
         `path LIKE '%/${song.imageId}%' AND NOT path LIKE '%h_44%'`)
       let row3 = stmt3.get()
       if (row3) {
-        fs.writeFileSync(`./assets/${song.imageId}.jpg`, row3.data)
+        const extension = row3.content_type.match(/image\/([a-z]+)/)[1]
+        song.imageFile = `./assets/${song.imageId}.${extension}`
+        fs.writeFileSync(song.imageFile, row3.data)
       }
 
       // Write .ts file to disk

@@ -3,7 +3,9 @@
 /node_modules/
 dumpfile
 dumpfile.db
-/assets/*.jpg
+/assets/*.jpeg
+/assets/*.webp
+/assets/*.png
 /assets/*.ts
 /assets/*.json
 /assets/*.html
