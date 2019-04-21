@@ -7,3 +7,4 @@ dumpfile.db
 /assets/*.ts
 /assets/*.json
 /assets/*.html
+/output/*.m4a
