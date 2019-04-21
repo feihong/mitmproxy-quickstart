@@ -4,11 +4,16 @@
 
     mitmdump -ns list_paths.py -r dumpfile
 
-## Steps
+## Procedure
 
-1. `mitmdump -w dumpfile ~u '.*streetvoice[.]com.*'`
+1. `yarn clean`
+1. Clear cached content in browser
+1. `yarn start:proxy`
 1. Set proxy to host: localhost, port: 8080
-1. `mitmdump -ns convert_to_sqlite.py -r dumpfile`
+1. Start playing a playlist
+1. Stop proxy
+1. `yarn process`
+1. Generated files will be in `output` folder
 
 ## Types of urls
 
@@ -21,4 +26,3 @@ Link song id to audio filename (json): https://streetvoice.com/api/v3/songs/5790
 Audio: https://cfhls.streetvoice.com/music/mi/ss/missbac/UFytKaN2SdsVNuToEZmbEk.mp3.hls.mp3-00019.ts
 
 Large image: https://cfstatic.streetvoice.com/profile_images/au/ro/aurora1533/NYzcbN2KQBJzUokaPUsr86.jpg?x-oss-process=image/resize,m_fill,h_300,w_300,limit_0/interlace,1/quality,q_85/format,jpg
-

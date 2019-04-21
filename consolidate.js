@@ -6,6 +6,7 @@ function convertToM4a(song, outputFile) {
   childProcess.spawnSync(
     'ffmpeg',
     [
+      '-y',   // overwrite if file already exists
       '-i', `./assets/${song.id}.ts`,
       '-metadata', `title=${song.title}`,
       '-metadata', `artist=${song.artist}`,
@@ -29,6 +30,7 @@ function addCoverArt(song, outputFile) {
       childProcess.spawnSync(
         'ffmpeg',
         [
+          '-y',   // overwrite if file already exists
           '-i', song.imageFile,
           pngFile,
         ],

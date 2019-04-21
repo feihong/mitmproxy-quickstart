@@ -5,11 +5,15 @@
   "license": "MIT",
   "dependencies": {
     "better-sqlite3": "^5.4.0",
-    "cheerio": "^1.0.0-rc.3"
+    "cheerio": "^1.0.0-rc.3",
+    "npm-run-all": "^4.1.5"
   },
   "scripts": {
     "start:proxy": "mitmdump -w dumpfile ~u '.*streetvoice[.]com.*'",
     "convert-to-sqlite": "mitmdump -ns convert_to_sqlite.py -r dumpfile",
-    "generate-files": "node generate-files.js"
+    "generate-files": "node generate-files.js",
+    "consolidate": "node consolidate.js",
+    "process": "run-p convert-to-sqlite generate-files consolidate",
+    "clean": "rm assets/* && rm dumpfile"
   }
 }

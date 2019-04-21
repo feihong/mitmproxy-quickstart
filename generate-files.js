@@ -4,18 +4,13 @@ const Database = require('better-sqlite3')
 
 const db = new Database('dumpfile.db', { fileMustExist: true })
 
-// for (const row of db.prepare('SELECT * FROM dump').iterate()) {
-//   console.log(row)
-// }
-
 function prepare(whereClause) {
   return db.prepare("SELECT * FROM dump WHERE " + whereClause)
 }
 
 function* getSongs() {
   const pages =
-    db.prepare(
-      "SELECT * FROM dump WHERE path LIKE '%/playlists/%' AND content_type LIKE 'text/html%'")
+    prepare("path LIKE '%/playlists/%' AND content_type LIKE 'text/html%'")
   for (const page of pages.iterate()) {
     const playlistRe = /playlists\/([0-9]+)\//
     let playlistId = page.path.match(playlistRe)[1]
