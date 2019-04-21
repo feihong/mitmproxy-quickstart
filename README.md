@@ -7,10 +7,11 @@
 ## Procedure
 
 1. `yarn clean`
-1. Disable cache in browser
 1. `yarn start:proxy`
 1. Set proxy to host: localhost, port: 8080
+1. Load a playlist page
 1. Start playing a playlist
+1. Switch to album cover mode
 1. Stop proxy
 1. `yarn process`
 1. Generated files will be in `output` folder
