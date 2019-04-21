@@ -8,8 +8,12 @@ class MyAddon:
     """
     The full HTTP response has been read.
     """
-    ctx.log.info(flow.request.path)
     content_type = flow.response.headers.get('content-type')
+    # if content_type and not content_type.startswith('image'):
+    #   return
+
+    ctx.log.info(flow.request.path)
+    ctx.log.info(str(flow.response.status_code))
     if not content_type:
       ctx.log.warn('  no content-type')
     else:

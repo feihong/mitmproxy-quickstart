@@ -31,15 +31,21 @@ function* getSongs() {
       }
     }).get()
     for (let song of songs) {
-      const stmt = prepare(
-        `path LIKE '%/songs/${song.id}/%fields=lyrics%'`)
+      const stmt = prepare(`path LIKE '%/songs/${song.id}/%fields=lyrics%'`)
       let row = stmt.get()
       song.lyrics = JSON.parse(row.data.toString()).lyrics
 
-      const stmt2 = prepare(
-        `path LIKE '%/songs/${song.id}/hls/'`)
+      const stmt2 = prepare(`path LIKE '%/songs/${song.id}/hls/'`)
       let row2 = stmt2.get()
       song.fileId = JSON.parse(row2.data.toString()).file
+
+      // Write image file to disk
+      const stmt3 = prepare(
+        `path LIKE '%/${song.imageId}%' AND NOT path LIKE '%h_44%'`)
+      let row3 = stmt3.get()
+      if (row3) {
+        fs.writeFileSync(`./assets/${song.imageId}.jpg`, row3.data)
+      }
     }
     yield* songs
   }
@@ -47,4 +53,7 @@ function* getSongs() {
 
 const songs = [...getSongs()]
 console.log(songs);
+// for (const song of songs) {
+//   console.log(song.imageId);
+// }
 
