@@ -4,6 +4,7 @@ apply track gain to balance loudness levels.
 */
 const fs = require('fs')
 const childProcess = require('child_process')
+const sanitize = require("sanitize-filename")
 const paths = require('./path.config')
 
 // Convert .ts to .m4a
@@ -83,7 +84,8 @@ const songs = require(paths.songsFile)
 for (const song of songs) {
   console.log(song.title);
 
-  const outputFile = `${paths.outputDir}/${song.artist}  ${song.title}.m4a`
+  const name = sanitize(`${song.artist}  ${song.title}.m4a`)
+  const outputFile = `${paths.outputDir}/${name}`
 
   convertToM4a(song, outputFile)
   addCoverArt(song, outputFile)
