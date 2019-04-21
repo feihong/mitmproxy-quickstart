@@ -1,0 +1,10 @@
+{
+  "name": "mitmproxy-quickstart",
+  "version": "1.0.0",
+  "author": "feihong",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^5.4.0",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
