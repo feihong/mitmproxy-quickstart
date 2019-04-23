@@ -29,7 +29,7 @@ function* getSongs() {
       const item = $(el)
       const anchor = item.find('td > a')
       const imageUrl = item.find('img').attr('src')
-      const imageIdRe = /\/([a-zA-Z0-9]+)[.](?:jpg|jpeg|png)/
+      const imageIdRe = /\/([a-zA-Z0-9]+)[.](?:jpg|jpeg|png)/i
 
       return {
         id: item.find('.btn-play').data('id'),
