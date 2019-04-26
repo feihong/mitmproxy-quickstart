@@ -10,3 +10,4 @@ dumpfile.db
 /assets/*.json
 /assets/*.html
 /output/*.m4a
+/cover-art/*.jpeg

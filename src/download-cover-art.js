@@ -12,12 +12,11 @@ function downloadArt(song) {
     https.get(url, response => {
       const contentType = response.headers['content-type']
       const extension = contentType.match(/image\/([a-z]+)/)[1]
-      const filename = `${paths.assetsDir}/${song.title}.${extension}`
+      const filename = `${paths.coverArtDir}/${song.title}.${extension}`
       const stream = fs.createWriteStream(filename)
       response.pipe(stream)
+      response.on('end', resolve)
     })
-
-    resolve()
   })
 }
 

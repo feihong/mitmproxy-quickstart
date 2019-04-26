@@ -50,7 +50,9 @@ for (let song of songs) {
   if (rows.length) {
     const stream = fs.createWriteStream(filename, { flags: 'a' })
     for (const row of rows) {
-      stream.write(row.data)
+      if (row.data) {
+        stream.write(row.data)
+      }
     }
     stream.end()
   }
