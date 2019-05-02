@@ -15,7 +15,8 @@ class MyAddon:
     if match and 'h_610' in path and content_type.startswith('image'):
       ctx.log.info(flow.request.path)
       image_id = match.group(1)
-      image_file = Path('cover-art') / (image_id + '.jpg')
+      _, ext = content_type.split('/')
+      image_file = (Path('cover-art') / image_id).with_suffix('.' + ext)
       ctx.log.info(str(image_file))
       image_file.write_bytes(flow.response.content)
 

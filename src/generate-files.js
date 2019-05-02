@@ -31,7 +31,7 @@ for (let song of songs) {
 
   // Write cover art to disk (grab the largest image we downloaded)
   const stmt3 = prepare(
-    `path LIKE '%/${song.imageId}%' ORDER BY length(data)`)
+    `path LIKE '%/${song.imageId}%' ORDER BY length(data) DESC`)
   const row3 = stmt3.get()
   if (row3) {
     const extension = row3.content_type.match(/image\/([a-z]+)/)[1]
