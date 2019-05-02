@@ -30,7 +30,8 @@ To proxy https, visit the [magic domain mitm.it](http://mitm.it) and follow the 
 
 ## Commands
 
-    mitmdump -ns list_paths.py -r dumpfile
+    mitmdump -ns addons/list_paths.py -r dumpfile
+    mitmdump -ns addons/dump_all_cover_art.py -r dumpfile
 
 ## Types of urls
 
