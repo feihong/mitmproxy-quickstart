@@ -25,15 +25,15 @@ function* getSongs() {
     fs.writeFileSync(`./assets/${playlistId}.html`, page.data)
 
     const $ = cheerio.load(page.data)
-    yield* $('#songlist tr.item_box').map((i, el) => {
+    yield* $('#item_box_list .item_box').map((i, el) => {
       const item = $(el)
-      const anchor = item.find('td > a')
+      const anchor = item.find('h5 > a')
       const imageUrl = item.find('img').attr('src')
       const imageIdRe = /\/([a-zA-Z0-9]+)[.](?:jpg|jpeg|png)/i
 
       return {
         id: item.find('.btn-play').data('id'),
-        title: item.find('h4').text(),
+        title: item.find('.work-item-info > h4').text().trim(),
         artist: anchor.text(),
         url: 'https://streetvoice.com' + anchor.attr('href'),
         imageUrl,
@@ -46,6 +46,6 @@ function* getSongs() {
 const songs = [...getSongs()]
 fs.writeFileSync(paths.songsFile, JSON.stringify(songs, null, 2))
 
-for (const song of songs) {
-  console.log(song.title);
-}
+songs.forEach((song, i) => {
+  console.log(`${i + 1}. ${song.title}`)
+})
