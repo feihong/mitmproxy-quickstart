@@ -11,7 +11,12 @@ A relatively simple project to scrape part of a website using mitmproxy (specifi
 
     yarn install
 
-To proxy https, visit the [magic domain mitm.it](http://mitm.it) and follow the instructions to install the mitmproxy certificate.
+### Install certificate
+
+You need to install mitmproxy certificate to proxy https requests.
+
+1. On target device, configure proxy settings
+1. Visit the magic domain http://mitm.it and follow the instructions to install the mitmproxy certificate
 
 ## Procedure
 
