@@ -49,3 +49,7 @@ Link song id to audio filename (json): https://streetvoice.com/api/v3/songs/5790
 Audio: https://cfhls.streetvoice.com/music/mi/ss/missbac/UFytKaN2SdsVNuToEZmbEk.mp3.hls.mp3-00019.ts
 
 Cover art: https://cfstatic.streetvoice.com/song_covers/go/od/goodband/eHuHxnUpXxqEt4j8a7i9Za.jpg?x-oss-process=image/resize,m_fill,h_610,w_610,limit_0/interlace,1/quality,q_85/format,jpg
+
+## Notes
+
+On Linux, Chrome doesn't use the system certificates, just like FireFox (which never uses system certs on any platform). Look at [these instructions](https://stackoverflow.com/a/15076602/198996) for a hint of how it's done, but note that you can import the .pem file directly in the Authority tab, no need to export the certificate and then import it. 
